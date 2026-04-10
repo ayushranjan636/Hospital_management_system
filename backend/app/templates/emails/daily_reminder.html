@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        margin: 0;
+        background: #f4f8ff;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #1f2937;
+      }
+      .wrapper {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .card {
+        background: #ffffff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+      }
+      .header {
+        background: linear-gradient(120deg, #00695c, #00a896);
+        color: #ffffff;
+        padding: 22px;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 22px;
+      }
+      .header p {
+        margin: 8px 0 0;
+        font-size: 14px;
+        opacity: 0.95;
+      }
+      .content {
+        padding: 22px;
+      }
+      .pill {
+        display: inline-block;
+        margin-bottom: 14px;
+        background: #e6fffb;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+        border-radius: 999px;
+        padding: 6px 12px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+      .grid {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .grid td {
+        border: 1px solid #e5e7eb;
+        padding: 10px;
+        font-size: 14px;
+      }
+      .label {
+        width: 180px;
+        background: #f9fafb;
+        color: #475569;
+        font-weight: bold;
+      }
+      .note {
+        margin-top: 14px;
+        padding: 12px;
+        border-left: 4px solid #0ea5e9;
+        background: #f0f9ff;
+        color: #075985;
+        font-size: 13px;
+      }
+      .footer {
+        margin-top: 18px;
+        font-size: 12px;
+        color: #64748b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="card">
+        <div class="header">
+          {% if is_test %}
+          <h1>Daily Reminder Test</h1>
+          <p>Mail configuration validation</p>
+          {% else %}
+          <h1>Hospital Visit Reminder</h1>
+          <p>Your appointment is scheduled for today</p>
+          {% endif %}
+        </div>
+
+        <div class="content">
+          <div class="pill">Generated On: {{ generated_on }}</div>
+
+          <table class="grid">
+            <tr>
+              <td class="label">Patient</td>
+              <td>{{ patient_name }}</td>
+            </tr>
+            <tr>
+              <td class="label">Doctor</td>
+              <td>{{ doctor_name }}</td>
+            </tr>
+            <tr>
+              <td class="label">Appointment Date</td>
+              <td>{{ appointment_date }}</td>
+            </tr>
+            <tr>
+              <td class="label">Appointment Time</td>
+              <td>{{ appointment_time }}</td>
+            </tr>
+          </table>
+
+          {% if is_test %}
+          <div class="note">
+            This is a test reminder email. Booked appointments found for today: <strong>{{ booked_count }}</strong>.
+          </div>
+          {% else %}
+          <div class="note">
+            Please arrive 10 minutes early and carry your previous reports/prescriptions if any.
+          </div>
+          {% endif %}
+
+          <div class="footer">Automated email from Hospital Management System.</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

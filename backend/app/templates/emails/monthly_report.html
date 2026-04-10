@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        margin: 0;
+        background: #f3f6fb;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #1f2937;
+      }
+      .wrapper {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .card {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }
+      .header {
+        background: linear-gradient(120deg, #0b3d91, #2667cc);
+        color: #ffffff;
+        padding: 24px;
+      }
+      .header h1 {
+        margin: 0;
+        font-size: 24px;
+      }
+      .header p {
+        margin: 8px 0 0;
+        font-size: 14px;
+        opacity: 0.95;
+      }
+      .content {
+        padding: 22px;
+      }
+      .meta {
+        display: table;
+        width: 100%;
+        margin-bottom: 18px;
+      }
+      .meta-box {
+        display: table-cell;
+        width: 33.33%;
+        background: #f8fafc;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 12px;
+        text-align: center;
+      }
+      .meta-label {
+        font-size: 12px;
+        color: #64748b;
+        margin-bottom: 4px;
+      }
+      .meta-value {
+        font-size: 18px;
+        font-weight: bold;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 8px;
+      }
+      th,
+      td {
+        border: 1px solid #e5e7eb;
+        padding: 10px;
+        font-size: 13px;
+        vertical-align: top;
+      }
+      th {
+        background: #e8f0ff;
+        color: #0b3d91;
+        text-align: left;
+      }
+      tbody tr:nth-child(even) {
+        background: #fbfdff;
+      }
+      .empty {
+        text-align: center;
+        color: #6b7280;
+        padding: 18px;
+      }
+      .footer {
+        margin-top: 18px;
+        font-size: 12px;
+        color: #64748b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="card">
+        <div class="header">
+          <h1>Monthly Activity Report</h1>
+          <p>{{ report_month }} | Doctor: Dr. {{ doctor_display_name }} ({{ doctor.specialization or 'General' }})</p>
+        </div>
+
+        <div class="content">
+          <div class="meta">
+            <div class="meta-box">
+              <div class="meta-label">Completed Appointments</div>
+              <div class="meta-value">{{ appointments|length }}</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Revenue (INR)</div>
+              <div class="meta-value">{{ total_revenue }}</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Generated On</div>
+              <div class="meta-value">{{ generated_on }}</div>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 13%;">Date</th>
+                <th style="width: 17%;">Patient</th>
+                <th style="width: 27%;">Diagnosis</th>
+                <th style="width: 25%;">Prescription</th>
+                <th style="width: 18%;">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if appointments %}
+                {% for appt in appointments %}
+                <tr>
+                  <td>{{ appt.date }}</td>
+                  <td>{{ appt.patient.user.username }}</td>
+                  <td>{{ appt.treatment.diagnosis if appt.treatment else '-' }}</td>
+                  <td>{{ appt.treatment.prescription if appt.treatment else '-' }}</td>
+                  <td>{{ appt.treatment.notes if appt.treatment and appt.treatment.notes else '-' }}</td>
+                </tr>
+                {% endfor %}
+              {% else %}
+                <tr>
+                  <td colspan="5" class="empty">No completed appointments for this month.</td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+
+          <div class="footer">
+            This is an automated report from Hospital Management System.
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
